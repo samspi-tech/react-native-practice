@@ -1,5 +1,6 @@
 import { Stack } from 'expo-router';
 import { useColorScheme } from 'react-native';
+
 import { Colors } from '../constants/Colors';
 
 const RootLayout = () => {

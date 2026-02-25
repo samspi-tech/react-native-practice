@@ -1,17 +1,24 @@
 import { StyleSheet } from 'react-native';
+import { Link } from 'expo-router';
 
 import ThemedView from '../../components/ThemedView';
 import Spacer from '../../components/Spacer';
 import ThemedText from '../../components/ThemedText';
-import { Link } from 'expo-router';
+import ThemedButton from '../../components/ThemedButton';
 
 const Register = () => {
+    const handleSubmit = () => {
+        console.log('register form submitted');
+    };
+
     return (
         <ThemedView style={styles.container}>
             <Spacer />
             <ThemedText isTitle={true} style={styles.title}>
                 Register For an Account
             </ThemedText>
+
+            <ThemedButton onPress={handleSubmit} text="Register" />
 
             <Spacer height={100} />
             <Link href="/login">
@@ -28,6 +35,7 @@ export default Register;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        alignItems: 'center',
         justifyContent: 'center',
     },
     title: {

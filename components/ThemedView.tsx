@@ -1,6 +1,7 @@
 import { StyleProp, View, ViewStyle, useColorScheme } from 'react-native';
-import { Colors } from '../constants/Colors';
 import { PropsWithChildren } from 'react';
+
+import { Colors } from '../constants/Colors';
 
 interface ThemedViewProps {
     style?: StyleProp<ViewStyle>;
