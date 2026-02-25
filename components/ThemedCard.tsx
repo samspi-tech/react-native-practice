@@ -2,21 +2,19 @@ import {
     StyleProp,
     View,
     ViewStyle,
-    useColorScheme,
     StyleSheet,
     ViewProps,
 } from 'react-native';
 import { PropsWithChildren } from 'react';
 
-import { Colors } from '../constants/Colors';
+import { useTheme } from '../hooks/useTheme';
 
 interface ThemedCardProps extends ViewProps {
     style?: StyleProp<ViewStyle>;
 }
 
 const ThemedCard = ({ style, ...rest }: PropsWithChildren<ThemedCardProps>) => {
-    const colorScheme = useColorScheme() ?? 'dark';
-    const theme = Colors[colorScheme];
+    const theme = useTheme();
 
     return (
         <View

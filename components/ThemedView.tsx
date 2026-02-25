@@ -1,21 +1,14 @@
-import {
-    StyleProp,
-    View,
-    ViewProps,
-    ViewStyle,
-    useColorScheme,
-} from 'react-native';
+import { StyleProp, View, ViewProps, ViewStyle } from 'react-native';
 import { PropsWithChildren } from 'react';
 
-import { Colors } from '../constants/Colors';
+import { useTheme } from '../hooks/useTheme';
 
 interface ThemedViewProps extends ViewProps {
     style?: StyleProp<ViewStyle>;
 }
 
 const ThemedView = ({ style, ...rest }: PropsWithChildren<ThemedViewProps>) => {
-    const colorScheme = useColorScheme() ?? 'dark';
-    const theme = Colors[colorScheme];
+    const theme = useTheme();
 
     return (
         <View

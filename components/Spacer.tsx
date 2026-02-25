@@ -1,4 +1,3 @@
-import { PropsWithChildren } from 'react';
 import { DimensionValue, View } from 'react-native';
 
 interface SpacerProps {
@@ -6,10 +5,7 @@ interface SpacerProps {
     height?: DimensionValue;
 }
 
-const Spacer = ({
-    width = '100%',
-    height = 40,
-}: PropsWithChildren<SpacerProps>) => {
+const Spacer = ({ width = '100%', height = 40 }: SpacerProps) => {
     return <View style={{ width, height }} />;
 };
 

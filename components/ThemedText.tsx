@@ -1,13 +1,7 @@
 import { PropsWithChildren } from 'react';
-import {
-    StyleProp,
-    Text,
-    TextProps,
-    TextStyle,
-    useColorScheme,
-} from 'react-native';
+import { StyleProp, Text, TextProps, TextStyle } from 'react-native';
 
-import { Colors } from '../constants/Colors';
+import { useTheme } from '../hooks/useTheme';
 
 interface ThemedTextProps extends TextProps {
     style?: StyleProp<TextStyle>;
@@ -19,8 +13,7 @@ const ThemedText = ({
     isTitle = false,
     ...rest
 }: PropsWithChildren<ThemedTextProps>) => {
-    const colorScheme = useColorScheme() ?? 'dark';
-    const theme = Colors[colorScheme];
+    const theme = useTheme();
 
     const textColor = isTitle ? theme.title : theme.text;
 
