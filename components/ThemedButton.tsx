@@ -4,13 +4,14 @@ import {
     StyleProp,
     StyleSheet,
     Text,
+    ViewStyle,
 } from 'react-native';
 
 import { Colors } from '../constants/Colors';
 
 interface ThemedButtonProps extends PressableProps {
     text: string;
-    style?: StyleProp<PressableProps>;
+    style?: StyleProp<ViewStyle>;
 }
 
 const ThemedButton = ({ text, style, ...rest }: ThemedButtonProps) => {

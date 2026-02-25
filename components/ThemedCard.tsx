@@ -4,11 +4,13 @@ import {
     ViewStyle,
     useColorScheme,
     StyleSheet,
+    ViewProps,
 } from 'react-native';
-import { Colors } from '../constants/Colors';
 import { PropsWithChildren } from 'react';
 
-interface ThemedCardProps {
+import { Colors } from '../constants/Colors';
+
+interface ThemedCardProps extends ViewProps {
     style?: StyleProp<ViewStyle>;
 }
 

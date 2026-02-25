@@ -1,8 +1,15 @@
 import { PropsWithChildren } from 'react';
-import { StyleProp, Text, TextStyle, useColorScheme } from 'react-native';
+import {
+    StyleProp,
+    Text,
+    TextProps,
+    TextStyle,
+    useColorScheme,
+} from 'react-native';
+
 import { Colors } from '../constants/Colors';
 
-interface ThemedTextProps {
+interface ThemedTextProps extends TextProps {
     style?: StyleProp<TextStyle>;
     isTitle?: boolean;
 }
