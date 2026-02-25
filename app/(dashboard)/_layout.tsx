@@ -1,26 +1,63 @@
 import { Tabs } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
 
 import { useTheme } from '../../hooks/useTheme';
 
 const DashboardLayout = () => {
-    const theme = useTheme();
+    const { navBackground, iconColor, iconColorFocused } = useTheme();
 
     return (
         <Tabs
             screenOptions={{
                 headerShown: false,
                 tabBarStyle: {
-                    backgroundColor: theme.navBackground,
+                    backgroundColor: navBackground,
                     paddingTop: 10,
                     height: 90,
                 },
-                tabBarActiveTintColor: theme.iconColorFocused,
-                tabBarInactiveTintColor: theme.iconColor,
+                tabBarActiveTintColor: iconColorFocused,
+                tabBarInactiveTintColor: iconColor,
             }}
         >
-            <Tabs.Screen name="profile" options={{ title: 'Profile' }} />
-            <Tabs.Screen name="books" options={{ title: 'Books' }} />
-            <Tabs.Screen name="createBook" options={{ title: 'Create Book' }} />
+            <Tabs.Screen
+                name="profile"
+                options={{
+                    title: 'Profile',
+                    tabBarIcon: ({ focused }) => (
+                        <Ionicons
+                            size={24}
+                            name={focused ? 'person' : 'person-outline'}
+                            color={focused ? iconColorFocused : iconColor}
+                        />
+                    ),
+                }}
+            />
+            <Tabs.Screen
+                name="books"
+                options={{
+                    title: 'Books',
+                    tabBarIcon: ({ focused }) => (
+                        <Ionicons
+                            size={24}
+                            name={focused ? 'book' : 'book-outline'}
+                            color={focused ? iconColorFocused : iconColor}
+                        />
+                    ),
+                }}
+            />
+            <Tabs.Screen
+                name="createBook"
+                options={{
+                    title: 'Create Book',
+                    tabBarIcon: ({ focused }) => (
+                        <Ionicons
+                            size={24}
+                            name={focused ? 'create' : 'create-outline'}
+                            color={focused ? iconColorFocused : iconColor}
+                        />
+                    ),
+                }}
+            />
         </Tabs>
     );
 };
