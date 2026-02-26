@@ -7,11 +7,11 @@ import ThemedText from '../../components/ThemedText';
 import ThemedButton from '../../components/ThemedButton';
 import ThemedTextInput from '../../components/ThemedTextInput';
 import { useAuth } from '../../hooks/useAuth';
-import { userUser } from '../../hooks/useUser';
+import { useUserContext } from '../../hooks/useUserContext';
 
 const Login = () => {
     const { email, setEmail, password, setPassword } = useAuth();
-    const { handleLogin } = userUser();
+    const { handleLogin } = useUserContext();
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
