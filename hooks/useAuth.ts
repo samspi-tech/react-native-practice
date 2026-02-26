@@ -7,18 +7,6 @@ export const useAuth = () => {
 
     const isEmptyValue = email.trim() === '' && password.trim() === '';
 
-    const handleLogin = () => {
-        if (isEmptyValue) {
-            return console.log('Please enter valid email and password');
-        }
-
-        console.log('login form submitted', email, password);
-
-        setEmail('');
-        setPassword('');
-        Keyboard.dismiss();
-    };
-
     const handleRegister = () => {
         if (isEmptyValue) {
             return console.log('Please enter valid email and password');
@@ -36,7 +24,6 @@ export const useAuth = () => {
         setEmail,
         password,
         setPassword,
-        handleLogin,
         handleRegister,
     };
 };

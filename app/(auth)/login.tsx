@@ -7,9 +7,11 @@ import ThemedText from '../../components/ThemedText';
 import ThemedButton from '../../components/ThemedButton';
 import ThemedTextInput from '../../components/ThemedTextInput';
 import { useAuth } from '../../hooks/useAuth';
+import { userUser } from '../../hooks/useUser';
 
 const Login = () => {
-    const { email, setEmail, password, setPassword, handleLogin } = useAuth();
+    const { email, setEmail, password, setPassword } = useAuth();
+    const { handleLogin } = userUser();
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -36,7 +38,7 @@ const Login = () => {
 
                 <ThemedButton
                     style={{ width: '80%' }}
-                    onPress={handleLogin}
+                    onPress={() => handleLogin({ email, password })}
                     text="Login"
                 />
 
