@@ -24,7 +24,7 @@ const ThemedButton = ({ text, style, ...rest }: ThemedButtonProps) => {
             ]}
             {...rest}
         >
-            <Text style={{ color: '#f2f2f2' }}>{text}</Text>
+            <Text style={styles.btnText}>{text}</Text>
         </Pressable>
     );
 };
@@ -40,5 +40,9 @@ const styles = StyleSheet.create({
     },
     pressed: {
         opacity: 0.5,
+    },
+    btnText: {
+        color: '#f2f2f2',
+        textAlign: 'center',
     },
 });
