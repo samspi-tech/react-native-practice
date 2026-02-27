@@ -8,14 +8,17 @@ import ThemedText from '../../components/ThemedText';
 import ThemedButton from '../../components/ThemedButton';
 import ThemedTextInput from '../../components/ThemedTextInput';
 import { useUserContext } from '../../hooks/useUserContext';
+import ErrorMessage from '../../components/ErrorMessage';
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState<string | null>('');
 
     const { handleLogin } = useUserContext();
 
     const handleSubmit = async () => {
+        setError('');
         try {
             await handleLogin({ email, password });
 
@@ -24,7 +27,7 @@ const Login = () => {
             Keyboard.dismiss();
         } catch (err) {
             if (err instanceof Error) {
-                console.error(err.message);
+                setError(err.message);
             }
         }
     };
@@ -54,9 +57,18 @@ const Login = () => {
 
                 <ThemedButton
                     style={{ width: '80%' }}
-                    onPress={() => handleLogin({ email, password })}
+                    onPress={handleSubmit}
                     text="Login"
                 />
+
+                {error && (
+                    <>
+                        <Spacer />
+                        <ErrorMessage style={{ width: '80%' }}>
+                            {error}
+                        </ErrorMessage>
+                    </>
+                )}
 
                 <Spacer height={100} />
                 <Link href="/register">

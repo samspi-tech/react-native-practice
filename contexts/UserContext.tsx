@@ -23,40 +23,35 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
     const [user, setUser] = useState<User | null>(null);
 
     const handleLogin = async ({ email, password }: UserCredentials) => {
-        if (!email.trim() || !password) {
-            return;
-        }
-
         try {
             await account.createEmailPasswordSession({
                 email,
                 password,
             });
-            setUser(await account.get());
+
+            const response = await account.get();
+            setUser(response);
         } catch (err) {
             if (err instanceof Error) {
-                console.error(err.message);
+                throw Error(err.message);
             }
         }
     };
 
     const handleRegister = async ({ email, password }: UserCredentials) => {
-        if (!email.trim() || !password) {
-            return;
-        }
-
         try {
             await account.create({
                 userId: ID.unique(),
                 email: email.trim(),
                 password,
             });
-
             await handleLogin({ email, password });
-            setUser(await account.get());
+
+            const response = await account.get();
+            setUser(response);
         } catch (err) {
             if (err instanceof Error) {
-                console.error(err.message);
+                throw Error(err.message);
             }
         }
     };
