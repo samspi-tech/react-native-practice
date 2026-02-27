@@ -10,15 +10,21 @@ import ThemedTextInput from '../../components/ThemedTextInput';
 import { useUserContext } from '../../hooks/useUserContext';
 import ErrorMessage from '../../components/ErrorMessage';
 
+interface ErrorMessages {
+    email?: string;
+    password?: string;
+    generic?: string;
+}
+
 const Register = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState<string | null>('');
+    const [error, setError] = useState<ErrorMessages | null>(null);
 
     const { handleRegister } = useUserContext();
 
     const handleSubmit = async () => {
-        setError('');
+        setError(null);
         try {
             await handleRegister({ email, password });
 
@@ -27,7 +33,17 @@ const Register = () => {
             Keyboard.dismiss();
         } catch (err) {
             if (err instanceof Error) {
-                setError(err.message);
+                switch (true) {
+                    case err.message.includes('email'): {
+                        return setError({ email: err.message });
+                    }
+                    case err.message.includes('password'): {
+                        return setError({ password: err.message });
+                    }
+                    default: {
+                        setError({ generic: err.message });
+                    }
+                }
             }
         }
     };
@@ -47,9 +63,9 @@ const Register = () => {
                     onChangeText={setEmail}
                     value={email}
                 />
-                {error && error.includes('email') && (
+                {error?.email && (
                     <ErrorMessage style={{ width: '80%', marginBottom: 20 }}>
-                        Please provide a valid email.
+                        Please provide a valid email address.
                     </ErrorMessage>
                 )}
 
@@ -60,7 +76,7 @@ const Register = () => {
                     value={password}
                     secureTextEntry
                 />
-                {error && error.includes('password') && (
+                {error?.password && (
                     <ErrorMessage style={{ width: '80%', marginBottom: 20 }}>
                         Password must be between 8 and 265 characther long, and
                         should not be one of the commonly used password.
@@ -72,6 +88,15 @@ const Register = () => {
                     onPress={handleSubmit}
                     text="Register"
                 />
+
+                {error?.generic && (
+                    <>
+                        <Spacer />
+                        <ErrorMessage style={{ width: '80%' }}>
+                            {error.generic}
+                        </ErrorMessage>
+                    </>
+                )}
 
                 <Spacer height={100} />
                 <Link href="/login">
