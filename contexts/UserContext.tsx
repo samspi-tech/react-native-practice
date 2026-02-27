@@ -12,6 +12,7 @@ interface UserCredentials {
 
 interface UserContextValues {
     user: User | null;
+    isAuthChecked: boolean;
     handleLogin: ({ email, password }: UserCredentials) => Promise<void>;
     handleRegister: ({ email, password }: UserCredentials) => Promise<void>;
     handleLogout: () => Promise<void>;
@@ -21,6 +22,7 @@ export const UserContext = createContext<UserContextValues | null>(null);
 
 export const UserProvider = ({ children }: PropsWithChildren) => {
     const [user, setUser] = useState<User | null>(null);
+    const [isAuthChecked, setIsAuthChecked] = useState(false);
 
     const handleLogin = async ({ email, password }: UserCredentials) => {
         try {
@@ -67,6 +69,8 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
             setUser(response);
         } catch (err) {
             setUser(null);
+        } finally {
+            setIsAuthChecked(true);
         }
     };
 
@@ -81,6 +85,7 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
                 handleRegister,
                 handleLogout,
                 user,
+                isAuthChecked,
             }}
         >
             {children}

@@ -1,13 +1,17 @@
 import { Stack } from 'expo-router';
 
+import GuestRoutes from '../../components/auth/GuestRoutes';
+
 const AuthLayout = () => {
     return (
-        <Stack
-            screenOptions={{
-                headerShown: false,
-                animation: 'none',
-            }}
-        />
+        <GuestRoutes>
+            <Stack
+                screenOptions={{
+                    headerShown: false,
+                    animation: 'none',
+                }}
+            />
+        </GuestRoutes>
     );
 };
 
