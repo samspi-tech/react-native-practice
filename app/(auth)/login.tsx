@@ -3,12 +3,11 @@ import { Link } from 'expo-router';
 import { useState } from 'react';
 
 import ThemedView from '../../components/ThemedView';
-import Spacer from '../../components/Spacer';
 import ThemedText from '../../components/ThemedText';
 import ThemedButton from '../../components/ThemedButton';
 import ThemedTextInput from '../../components/ThemedTextInput';
-import { useUserContext } from '../../hooks/useUserContext';
 import ErrorMessage from '../../components/ErrorMessage';
+import { useUserContext } from '../../hooks/useUserContext';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -33,43 +32,44 @@ const Login = () => {
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <ThemedView style={styles.container}>
-                <Spacer />
                 <ThemedText isTitle={true} style={styles.title}>
                     Login to Your Account
                 </ThemedText>
 
-                <ThemedTextInput
-                    style={{ width: '80%', marginBottom: 20 }}
-                    placeholder="Email"
-                    keyboardType="email-address"
-                    onChangeText={setEmail}
-                    value={email}
-                />
-                <ThemedTextInput
-                    style={{ width: '80%', marginBottom: 20 }}
-                    placeholder="Password"
-                    onChangeText={setPassword}
-                    value={password}
-                    secureTextEntry
-                />
+                <ThemedView
+                    style={{ alignItems: 'center', width: '100%', gap: 20 }}
+                >
+                    <ThemedTextInput
+                        style={{ width: '80%' }}
+                        placeholder="Email"
+                        keyboardType="email-address"
+                        onChangeText={setEmail}
+                        value={email}
+                    />
+                    <ThemedTextInput
+                        style={{ width: '80%' }}
+                        placeholder="Password"
+                        onChangeText={setPassword}
+                        value={password}
+                        secureTextEntry
+                    />
 
-                <ThemedButton
-                    style={{ width: '80%' }}
-                    onPress={handleSubmit}
-                    text="Login"
-                />
+                    <ThemedButton
+                        style={{ width: '80%' }}
+                        onPress={handleSubmit}
+                        text="Login"
+                    />
 
-                {error && (
-                    <>
-                        <Spacer />
-                        <ErrorMessage style={{ width: '80%' }}>
-                            {error}
-                        </ErrorMessage>
-                    </>
-                )}
+                    {error && (
+                        <>
+                            <ErrorMessage style={{ width: '80%' }}>
+                                {error}
+                            </ErrorMessage>
+                        </>
+                    )}
+                </ThemedView>
 
-                <Spacer height={100} />
-                <Link href="/register">
+                <Link href="/register" style={{ marginTop: 100 }}>
                     <ThemedText style={{ textAlign: 'center' }}>
                         Register instead
                     </ThemedText>

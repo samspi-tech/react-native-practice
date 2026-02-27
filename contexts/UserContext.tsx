@@ -75,6 +75,10 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
     };
 
     useEffect(() => {
+        if (isAuthChecked) {
+            return;
+        }
+
         getInitialUserValue();
     }, []);
 

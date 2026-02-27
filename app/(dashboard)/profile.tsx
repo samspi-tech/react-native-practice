@@ -1,25 +1,24 @@
 import { StyleSheet } from 'react-native';
 
-import Spacer from '../../components/Spacer';
 import ThemedText from '../../components/ThemedText';
 import ThemedView from '../../components/ThemedView';
-import { useUserContext } from '../../hooks/useUserContext';
 import ThemedButton from '../../components/ThemedButton';
+import { useUserContext } from '../../hooks/useUserContext';
 
 const Profile = () => {
     const { handleLogout, user } = useUserContext();
 
     return (
         <ThemedView style={styles.container}>
-            <ThemedText isTitle={true} style={styles.heading}>
-                {user?.email}
-            </ThemedText>
-            <Spacer />
+            <ThemedView style={{ gap: 40 }}>
+                <ThemedText isTitle={true} style={styles.heading}>
+                    {user?.email}
+                </ThemedText>
 
-            <ThemedText>Time to start reading some books...</ThemedText>
-            <Spacer />
+                <ThemedText>Time to start reading some books...</ThemedText>
 
-            <ThemedButton onPress={handleLogout} text="Logout" />
+                <ThemedButton onPress={handleLogout} text="Logout" />
+            </ThemedView>
         </ThemedView>
     );
 };

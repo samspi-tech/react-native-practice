@@ -2,7 +2,6 @@ import { StyleSheet } from 'react-native';
 
 import ThemedView from '../../components/ThemedView';
 import ThemedText from '../../components/ThemedText';
-import Spacer from '../../components/Spacer';
 
 const CreateBook = () => {
     return (
@@ -10,7 +9,6 @@ const CreateBook = () => {
             <ThemedText isTitle={true} style={styles.heading}>
                 Add a New Book
             </ThemedText>
-            <Spacer />
         </ThemedView>
     );
 };

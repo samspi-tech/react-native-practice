@@ -1,13 +1,11 @@
 import { StyleSheet } from 'react-native';
 
-import Spacer from '../../components/Spacer';
 import ThemedText from '../../components/ThemedText';
 import ThemedView from '../../components/ThemedView';
 
 const Books = () => {
     return (
         <ThemedView isSafeView={true} style={styles.container}>
-            <Spacer />
             <ThemedText isTitle={true} style={styles.heading}>
                 Your Reading List
             </ThemedText>
@@ -26,5 +24,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 18,
         textAlign: 'center',
+        marginTop: 40,
     },
 });

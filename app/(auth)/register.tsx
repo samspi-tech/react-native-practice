@@ -3,12 +3,11 @@ import { Link } from 'expo-router';
 import { useState } from 'react';
 
 import ThemedView from '../../components/ThemedView';
-import Spacer from '../../components/Spacer';
 import ThemedText from '../../components/ThemedText';
 import ThemedButton from '../../components/ThemedButton';
 import ThemedTextInput from '../../components/ThemedTextInput';
-import { useUserContext } from '../../hooks/useUserContext';
 import ErrorMessage from '../../components/ErrorMessage';
+import { useUserContext } from '../../hooks/useUserContext';
 
 interface ErrorMessages {
     email?: string;
@@ -47,46 +46,48 @@ const Register = () => {
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <ThemedView style={styles.container}>
-                <Spacer />
                 <ThemedText isTitle={true} style={styles.title}>
                     Register For an Account
                 </ThemedText>
 
-                <ThemedTextInput
-                    style={{ width: '80%', marginBottom: 20 }}
-                    placeholder="Email"
-                    keyboardType="email-address"
-                    onChangeText={setEmail}
-                    value={email}
-                />
-                {error?.email && (
-                    <ErrorMessage style={{ width: '80%', marginBottom: 20 }}>
-                        Please provide a valid email address.
-                    </ErrorMessage>
-                )}
+                <ThemedView
+                    style={{ alignItems: 'center', width: '100%', gap: 20 }}
+                >
+                    <ThemedTextInput
+                        style={{ width: '80%' }}
+                        placeholder="Email"
+                        keyboardType="email-address"
+                        onChangeText={setEmail}
+                        value={email}
+                    />
+                    {error?.email && (
+                        <ErrorMessage style={{ width: '80%' }}>
+                            Please provide a valid email address.
+                        </ErrorMessage>
+                    )}
 
-                <ThemedTextInput
-                    style={{ width: '80%', marginBottom: 20 }}
-                    placeholder="Password"
-                    onChangeText={setPassword}
-                    value={password}
-                    secureTextEntry
-                />
-                {error?.password && (
-                    <ErrorMessage style={{ width: '80%', marginBottom: 20 }}>
-                        Password must be between 8 and 265 characther long, and
-                        should not be one of the commonly used password.
-                    </ErrorMessage>
-                )}
+                    <ThemedTextInput
+                        style={{ width: '80%' }}
+                        placeholder="Password"
+                        onChangeText={setPassword}
+                        value={password}
+                        secureTextEntry
+                    />
+                    {error?.password && (
+                        <ErrorMessage style={{ width: '80%' }}>
+                            Password must be between 8 and 265 characther long,
+                            and should not be one of the commonly used password.
+                        </ErrorMessage>
+                    )}
 
-                <ThemedButton
-                    style={{ width: '80%' }}
-                    onPress={handleSubmit}
-                    text="Register"
-                />
+                    <ThemedButton
+                        style={{ width: '80%' }}
+                        onPress={handleSubmit}
+                        text="Register"
+                    />
+                </ThemedView>
 
-                <Spacer height={100} />
-                <Link href="/login">
+                <Link href="/login" style={{ marginTop: 100 }}>
                     <ThemedText style={{ textAlign: 'center' }}>
                         Login instead
                     </ThemedText>

@@ -4,6 +4,7 @@ import {
     StyleProp,
     ImageStyle,
     ImageProps,
+    ImageSourcePropType,
 } from 'react-native';
 
 import DarkLogo from '../assets/img/logo_dark.png';
@@ -16,7 +17,8 @@ interface ThemedLogoProps extends ImageProps {
 const ThemedLogo = ({ style, ...rest }: ThemedLogoProps) => {
     const colorScheme = useColorScheme() ?? 'dark';
 
-    const logo = colorScheme === 'dark' ? DarkLogo : LightLogo;
+    const logo: ImageSourcePropType =
+        colorScheme === 'dark' ? DarkLogo : LightLogo;
 
     return <Image source={logo} style={[style]} {...rest} />;
 };
