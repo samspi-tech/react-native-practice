@@ -56,7 +56,10 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
         }
     };
 
-    const handleLogout = async () => {};
+    const handleLogout = async () => {
+        await account.deleteSession({ sessionId: 'current' });
+        setUser(null);
+    };
 
     return (
         <UserContext.Provider

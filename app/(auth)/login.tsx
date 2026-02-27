@@ -13,7 +13,7 @@ import ErrorMessage from '../../components/ErrorMessage';
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState<string | null>('');
+    const [error, setError] = useState('');
 
     const { handleLogin } = useUserContext();
 
@@ -26,9 +26,7 @@ const Login = () => {
             setPassword('');
             Keyboard.dismiss();
         } catch (err) {
-            if (err instanceof Error) {
-                setError(err.message);
-            }
+            setError('Invalid email or password.');
         }
     };
 

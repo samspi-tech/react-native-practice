@@ -13,7 +13,6 @@ import ErrorMessage from '../../components/ErrorMessage';
 interface ErrorMessages {
     email?: string;
     password?: string;
-    generic?: string;
 }
 
 const Register = () => {
@@ -39,9 +38,6 @@ const Register = () => {
                     }
                     case err.message.includes('password'): {
                         return setError({ password: err.message });
-                    }
-                    default: {
-                        setError({ generic: err.message });
                     }
                 }
             }
@@ -88,15 +84,6 @@ const Register = () => {
                     onPress={handleSubmit}
                     text="Register"
                 />
-
-                {error?.generic && (
-                    <>
-                        <Spacer />
-                        <ErrorMessage style={{ width: '80%' }}>
-                            {error.generic}
-                        </ErrorMessage>
-                    </>
-                )}
 
                 <Spacer height={100} />
                 <Link href="/login">

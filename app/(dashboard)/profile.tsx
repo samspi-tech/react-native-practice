@@ -3,8 +3,12 @@ import { StyleSheet } from 'react-native';
 import Spacer from '../../components/Spacer';
 import ThemedText from '../../components/ThemedText';
 import ThemedView from '../../components/ThemedView';
+import { useUserContext } from '../../hooks/useUserContext';
+import ThemedButton from '../../components/ThemedButton';
 
 const Profile = () => {
+    const { handleLogout } = useUserContext();
+
     return (
         <ThemedView style={styles.container}>
             <ThemedText isTitle={true} style={styles.heading}>
@@ -14,6 +18,8 @@ const Profile = () => {
 
             <ThemedText>Time to start reading some books...</ThemedText>
             <Spacer />
+
+            <ThemedButton onPress={handleLogout} text="Logout" />
         </ThemedView>
     );
 };
