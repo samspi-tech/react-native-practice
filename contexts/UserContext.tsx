@@ -1,4 +1,9 @@
 import { createContext, PropsWithChildren, useState } from 'react';
+import { ID, Models } from 'react-native-appwrite';
+
+import { account } from '../lib/appwrite';
+
+type User = Models.User<Models.Preferences>;
 
 interface UserCredentials {
     email: string;
@@ -6,24 +11,57 @@ interface UserCredentials {
 }
 
 interface UserContextValues {
-    user: [] | null;
-    handleLogin: ({ email, password }: UserCredentials) => void;
-    handleRegister: ({ email, password }: UserCredentials) => void;
-    handleLogout: () => void;
+    user: User | null;
+    handleLogin: ({ email, password }: UserCredentials) => Promise<void>;
+    handleRegister: ({ email, password }: UserCredentials) => Promise<void>;
+    handleLogout: () => Promise<void>;
 }
 
 export const UserContext = createContext<UserContextValues | null>(null);
 
 export const UserProvider = ({ children }: PropsWithChildren) => {
-    const [user, setUser] = useState<[] | null>(null);
+    const [user, setUser] = useState<User | null>(null);
 
-    const handleLogin = ({ email, password }: UserCredentials) => {
-        console.log('current user', user);
+    const handleLogin = async ({ email, password }: UserCredentials) => {
+        if (!email.trim() || !password) {
+            return;
+        }
+
+        try {
+            await account.createEmailPasswordSession({
+                email,
+                password,
+            });
+            setUser(await account.get());
+        } catch (err) {
+            if (err instanceof Error) {
+                console.error(err.message);
+            }
+        }
     };
 
-    const handleRegister = ({ email, password }: UserCredentials) => {};
+    const handleRegister = async ({ email, password }: UserCredentials) => {
+        if (!email.trim() || !password) {
+            return;
+        }
 
-    const handleLogout = () => {};
+        try {
+            await account.create({
+                userId: ID.unique(),
+                email: email.trim(),
+                password,
+            });
+
+            await handleLogin({ email, password });
+            setUser(await account.get());
+        } catch (err) {
+            if (err instanceof Error) {
+                console.error(err.message);
+            }
+        }
+    };
+
+    const handleLogout = async () => {};
 
     return (
         <UserContext.Provider

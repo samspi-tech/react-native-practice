@@ -1,16 +1,33 @@
 import { Keyboard, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import { Link } from 'expo-router';
+import { useState } from 'react';
 
 import ThemedView from '../../components/ThemedView';
 import Spacer from '../../components/Spacer';
 import ThemedText from '../../components/ThemedText';
 import ThemedButton from '../../components/ThemedButton';
 import ThemedTextInput from '../../components/ThemedTextInput';
-import { useAuth } from '../../hooks/useAuth';
+import { useUserContext } from '../../hooks/useUserContext';
 
 const Register = () => {
-    const { email, setEmail, password, setPassword, handleRegister } =
-        useAuth();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    const { handleRegister } = useUserContext();
+
+    const handleSubmit = async () => {
+        try {
+            await handleRegister({ email, password });
+
+            setEmail('');
+            setPassword('');
+            Keyboard.dismiss();
+        } catch (err) {
+            if (err instanceof Error) {
+                console.error(err.message);
+            }
+        }
+    };
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -37,7 +54,7 @@ const Register = () => {
 
                 <ThemedButton
                     style={{ width: '80%' }}
-                    onPress={handleRegister}
+                    onPress={handleSubmit}
                     text="Register"
                 />
 
