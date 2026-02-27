@@ -7,12 +7,12 @@ import { useUserContext } from '../../hooks/useUserContext';
 import ThemedButton from '../../components/ThemedButton';
 
 const Profile = () => {
-    const { handleLogout } = useUserContext();
+    const { handleLogout, user } = useUserContext();
 
     return (
         <ThemedView style={styles.container}>
             <ThemedText isTitle={true} style={styles.heading}>
-                Your Email
+                {user?.email}
             </ThemedText>
             <Spacer />
 

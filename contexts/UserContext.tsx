@@ -1,4 +1,4 @@
-import { createContext, PropsWithChildren, useState } from 'react';
+import { createContext, PropsWithChildren, useEffect, useState } from 'react';
 import { ID, Models } from 'react-native-appwrite';
 
 import { account } from '../lib/appwrite';
@@ -60,6 +60,19 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
         await account.deleteSession({ sessionId: 'current' });
         setUser(null);
     };
+
+    const getInitialUserValue = async () => {
+        try {
+            const response = await account.get();
+            setUser(response);
+        } catch (err) {
+            setUser(null);
+        }
+    };
+
+    useEffect(() => {
+        getInitialUserValue();
+    }, []);
 
     return (
         <UserContext.Provider
