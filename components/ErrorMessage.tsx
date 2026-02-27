@@ -17,13 +17,13 @@ const ErrorMessage = ({
     style,
     ...rest
 }: PropsWithChildren<ErrorMessageProps>) => {
-    return <Text style={[styles.container, style]} {...rest} />;
+    return <Text style={[styles.errorMessage, style]} {...rest} />;
 };
 
 export default ErrorMessage;
 
 const styles = StyleSheet.create({
-    container: {
+    errorMessage: {
         color: Colors.warning,
         borderColor: Colors.warning,
         borderWidth: 1,
