@@ -28,7 +28,6 @@ const Register = () => {
 
             setEmail('');
             setPassword('');
-            Keyboard.dismiss();
         } catch (err) {
             if (err instanceof Error) {
                 switch (true) {
@@ -40,6 +39,8 @@ const Register = () => {
                     }
                 }
             }
+        } finally {
+            Keyboard.dismiss();
         }
     };
 

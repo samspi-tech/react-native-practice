@@ -23,9 +23,10 @@ const Login = () => {
 
             setEmail('');
             setPassword('');
-            Keyboard.dismiss();
         } catch (err) {
             setError('Invalid email or password.');
+        } finally {
+            Keyboard.dismiss();
         }
     };
 

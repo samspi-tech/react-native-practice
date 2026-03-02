@@ -2,7 +2,7 @@ import { PropsWithChildren, useEffect } from 'react';
 import { useRouter } from 'expo-router';
 
 import { useUserContext } from '../../hooks/useUserContext';
-import ThemedText from '../ThemedText';
+import ThemedLoader from '../ThemedLoader';
 
 const GuestRoutes = ({ children }: PropsWithChildren) => {
     const router = useRouter();
@@ -15,7 +15,7 @@ const GuestRoutes = ({ children }: PropsWithChildren) => {
     }, [user, isAuthChecked]);
 
     if (!isAuthChecked || user) {
-        return <ThemedText>Loading</ThemedText>;
+        return <ThemedLoader />;
     }
 
     return children;
