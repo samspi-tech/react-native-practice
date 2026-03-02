@@ -1,14 +1,8 @@
 import { createContext, PropsWithChildren, useEffect, useState } from 'react';
-import { ID, Models } from 'react-native-appwrite';
+import { ID } from 'react-native-appwrite';
 
 import { account } from '../lib/appwrite';
-
-type User = Models.User<Models.Preferences>;
-
-interface UserCredentials {
-    email: string;
-    password: string;
-}
+import { User, UserCredentials } from '../types/types';
 
 interface UserContextValues {
     user: User | null;
