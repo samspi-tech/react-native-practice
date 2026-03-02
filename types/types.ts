@@ -8,11 +8,11 @@ export type UserCredentials = {
 };
 
 export type Book = {
-    id: string;
+    id?: string;
     title: string;
     author: string;
     description: string;
-    userId: string;
-    createdAt: Date;
-    updatedAt: Date;
+    userId?: string;
+    createdAt?: Date;
+    updatedAt?: Date;
 };
