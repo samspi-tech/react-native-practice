@@ -1,7 +1,7 @@
-import { createContext, PropsWithChildren, useState } from 'react';
-import { ID } from 'react-native-appwrite';
+import { createContext, PropsWithChildren, useEffect, useState } from 'react';
+import { ID, Query } from 'react-native-appwrite';
 
-import { Book } from '../types/types';
+import { Book, BookPayload } from '../types/types';
 import { tabledDB } from '../lib/appwrite';
 import { useUserContext } from '../hooks/useUserContext';
 
@@ -9,7 +9,7 @@ interface BooksContextValues {
     books: Book[];
     getAllBooks: () => Promise<void>;
     getSingleBook: () => Promise<void>;
-    createBook: (payload: Book) => Promise<void>;
+    createBook: (payload: BookPayload) => Promise<void>;
     deleteBook: () => Promise<void>;
 }
 
@@ -19,17 +19,34 @@ export const BooksProvider = ({ children }: PropsWithChildren) => {
     const { user } = useUserContext();
     const [books, setBooks] = useState<Book[]>([]);
 
-    const getAllBooks = async () => {};
-
-    const getSingleBook = async () => {};
-
-    const createBook = async (payload: Book) => {
+    const getAllBooks = async () => {
         if (!user) {
             throw new Error('No user is logged in');
         }
 
         try {
-            await tabledDB.createRow({
+            const response = await tabledDB.listRows<Book>({
+                databaseId: process.env.EXPO_PUBLIC_APPWRITE_DATABASE_ID!,
+                tableId: process.env.EXPO_PUBLIC_APPWRITE_BOOKS_TABLE_ID!,
+                queries: [Query.equal('userId', user.$id)],
+            });
+            setBooks(response.rows);
+        } catch (err) {
+            if (err instanceof Error) {
+                console.log(err.message);
+            }
+        }
+    };
+
+    const getSingleBook = async () => {};
+
+    const createBook = async (payload: BookPayload) => {
+        if (!user) {
+            throw new Error('No user is logged in');
+        }
+
+        try {
+            await tabledDB.createRow<Book>({
                 databaseId: process.env.EXPO_PUBLIC_APPWRITE_DATABASE_ID!,
                 tableId: process.env.EXPO_PUBLIC_APPWRITE_BOOKS_TABLE_ID!,
                 rowId: ID.unique(),
@@ -46,6 +63,14 @@ export const BooksProvider = ({ children }: PropsWithChildren) => {
     };
 
     const deleteBook = async () => {};
+
+    useEffect(() => {
+        if (user) {
+            getAllBooks();
+        } else {
+            setBooks([]);
+        }
+    }, [user]);
 
     return (
         <BooksContext.Provider

@@ -7,12 +7,13 @@ export type UserCredentials = {
     password: string;
 };
 
-export type Book = {
-    id?: string;
+export type BookPayload = {
     title: string;
     author: string;
     description: string;
-    userId?: string;
-    createdAt?: Date;
-    updatedAt?: Date;
 };
+
+export type Book = {
+    userId: string;
+} & BookPayload &
+    Models.Row;
