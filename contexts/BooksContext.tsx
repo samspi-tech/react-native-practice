@@ -2,7 +2,7 @@ import { createContext, PropsWithChildren, useEffect, useState } from 'react';
 import { ID, Query } from 'react-native-appwrite';
 
 import { Book, BookPayload } from '../types/types';
-import { tabledDB } from '../lib/appwrite';
+import { client, tabledDB } from '../lib/appwrite';
 import { useUserContext } from '../hooks/useUserContext';
 
 interface BooksContextValues {
@@ -65,11 +65,27 @@ export const BooksProvider = ({ children }: PropsWithChildren) => {
     const deleteBook = async () => {};
 
     useEffect(() => {
+        let unsubscribe: () => void;
+
+        const channel = `databases.${process.env.EXPO_PUBLIC_APPWRITE_DATABASE_ID}.tables.${process.env.EXPO_PUBLIC_APPWRITE_BOOKS_TABLE_ID}.rows`;
+
         if (user) {
             getAllBooks();
+
+            unsubscribe = client.subscribe(channel, (response) => {
+                const { payload, events } = response;
+
+                if (events[0].includes('create')) {
+                    setBooks((prevBooks) => [...prevBooks, payload as Book]);
+                }
+            });
         } else {
             setBooks([]);
         }
+
+        return () => {
+            unsubscribe();
+        };
     }, [user]);
 
     return (
