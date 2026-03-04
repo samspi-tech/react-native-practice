@@ -57,22 +57,21 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
         setUser(null);
     };
 
-    const getInitialUserValue = async () => {
-        try {
-            const response = await account.get();
-            setUser(response);
-        } catch (err) {
-            setUser(null);
-        } finally {
-            setIsAuthChecked(true);
-        }
-    };
-
     useEffect(() => {
         if (isAuthChecked) {
             return;
         }
 
+        const getInitialUserValue = async () => {
+            try {
+                const response = await account.get();
+                setUser(response);
+            } catch (err) {
+                setUser(null);
+            } finally {
+                setIsAuthChecked(true);
+            }
+        };
         getInitialUserValue();
     }, []);
 
