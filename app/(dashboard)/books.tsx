@@ -1,4 +1,5 @@
 import { FlatList, Pressable, StyleSheet } from 'react-native';
+import { useRouter } from 'expo-router';
 
 import ThemedText from '../../components/ThemedText';
 import ThemedView from '../../components/ThemedView';
@@ -7,6 +8,7 @@ import { Colors } from '../../constants/Colors';
 import ThemedCard from '../../components/ThemedCard';
 
 const Books = () => {
+    const router = useRouter();
     const { books } = useBooksContext();
 
     return (
@@ -20,7 +22,7 @@ const Books = () => {
                 keyExtractor={(book) => book.$id}
                 contentContainerStyle={styles.list}
                 renderItem={({ item }) => (
-                    <Pressable>
+                    <Pressable onPress={() => router.push(`/book/${item.$id}`)}>
                         <ThemedCard style={styles.card}>
                             <ThemedText style={styles.title}>
                                 {item.title}

@@ -68,6 +68,7 @@ const DashboardLayout = () => {
                             ),
                         }}
                     />
+                    <Tabs.Screen name="book/[id]" options={{ href: null }} />
                 </Tabs>
             </BooksProvider>
         </ProtectedRoutes>
