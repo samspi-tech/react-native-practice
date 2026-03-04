@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
 
 import ThemedView from '../../../components/ThemedView';
@@ -8,12 +8,22 @@ import { useBooksContext } from '../../../hooks/useBooksContext';
 import { Book } from '../../../types/types';
 import ThemedCard from '../../../components/ThemedCard';
 import ThemedLoader from '../../../components/ThemedLoader';
+import ThemedButton from '../../../components/ThemedButton';
+import { Colors } from '../../../constants/Colors';
 
 const BookDetails = () => {
     const [book, setBook] = useState<Book | null>(null);
 
-    const { getSingleBook } = useBooksContext();
+    const router = useRouter();
     const { id } = useLocalSearchParams<{ id: string }>();
+    const { getSingleBook, deleteBook } = useBooksContext();
+
+    const handleDeleteBook = async () => {
+        await deleteBook(id);
+
+        setBook(null);
+        router.replace('/books');
+    };
 
     useEffect(() => {
         const loadBook = async () => {
@@ -21,14 +31,14 @@ const BookDetails = () => {
             setBook(bookData);
         };
         loadBook();
+
+        return () => {
+            setBook(null);
+        };
     }, [id]);
 
     if (!book) {
-        return (
-            <ThemedView isSafeView={true} style={styles.container}>
-                <ThemedLoader />;
-            </ThemedView>
-        );
+        return <ThemedLoader />;
     }
 
     return (
@@ -40,6 +50,12 @@ const BookDetails = () => {
                 </ThemedText>
                 <ThemedText isTitle={true}>Book description:</ThemedText>
                 <ThemedText>{book.description}</ThemedText>
+
+                <ThemedButton
+                    text="Delete"
+                    style={styles.deleteBtn}
+                    onPress={handleDeleteBook}
+                />
             </ThemedCard>
         </ThemedView>
     );
@@ -62,5 +78,10 @@ const styles = StyleSheet.create({
     card: {
         margin: 20,
         gap: 10,
+    },
+    deleteBtn: {
+        marginTop: 40,
+        width: '100%',
+        backgroundColor: Colors.warning,
     },
 });

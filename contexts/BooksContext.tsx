@@ -10,7 +10,7 @@ interface BooksContextValues {
     getAllBooks: () => Promise<void>;
     getSingleBook: (bookId: string) => Promise<Book>;
     createBook: (payload: BookPayload) => Promise<void>;
-    deleteBook: () => Promise<void>;
+    deleteBook: (bookId: string) => Promise<void>;
 }
 
 export const BooksContext = createContext<BooksContextValues | null>(null);
@@ -79,7 +79,19 @@ export const BooksProvider = ({ children }: PropsWithChildren) => {
         }
     };
 
-    const deleteBook = async () => {};
+    const deleteBook = async (bookId: string) => {
+        try {
+            await tabledDB.deleteRow({
+                databaseId: process.env.EXPO_PUBLIC_APPWRITE_DATABASE_ID!,
+                tableId: process.env.EXPO_PUBLIC_APPWRITE_BOOKS_TABLE_ID!,
+                rowId: bookId,
+            });
+        } catch (err) {
+            if (err instanceof Error) {
+                console.log(err.message);
+            }
+        }
+    };
 
     useEffect(() => {
         let unsubscribe: () => void;
@@ -92,8 +104,20 @@ export const BooksProvider = ({ children }: PropsWithChildren) => {
             unsubscribe = client.subscribe(channel, (response) => {
                 const { payload, events } = response;
 
+                const payloadBook = payload as Book;
+
                 if (events[0].includes('create')) {
-                    setBooks((prevBooks) => [...prevBooks, payload as Book]);
+                    setBooks((prevBooks) => [...prevBooks, payloadBook]);
+                }
+
+                if (events[0].includes('delete')) {
+                    setBooks((prevBooks) => {
+                        const updatedBooks = prevBooks.filter((book) => {
+                            return book.$id !== payloadBook.$id;
+                        });
+
+                        return [...updatedBooks];
+                    });
                 }
             });
         } else {
