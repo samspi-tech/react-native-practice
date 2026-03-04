@@ -8,7 +8,7 @@ import { useUserContext } from '../hooks/useUserContext';
 interface BooksContextValues {
     books: Book[];
     getAllBooks: () => Promise<void>;
-    getSingleBook: () => Promise<void>;
+    getSingleBook: (bookId: string) => Promise<Book>;
     createBook: (payload: BookPayload) => Promise<void>;
     deleteBook: () => Promise<void>;
 }
@@ -16,8 +16,9 @@ interface BooksContextValues {
 export const BooksContext = createContext<BooksContextValues | null>(null);
 
 export const BooksProvider = ({ children }: PropsWithChildren) => {
-    const { user } = useUserContext();
     const [books, setBooks] = useState<Book[]>([]);
+
+    const { user } = useUserContext();
 
     const getAllBooks = async () => {
         if (!user) {
@@ -38,7 +39,23 @@ export const BooksProvider = ({ children }: PropsWithChildren) => {
         }
     };
 
-    const getSingleBook = async () => {};
+    const getSingleBook = async (bookId: string): Promise<Book> => {
+        try {
+            const response = await tabledDB.getRow<Book>({
+                databaseId: process.env.EXPO_PUBLIC_APPWRITE_DATABASE_ID!,
+                tableId: process.env.EXPO_PUBLIC_APPWRITE_BOOKS_TABLE_ID!,
+                rowId: bookId,
+            });
+
+            return response;
+        } catch (err) {
+            if (err instanceof Error) {
+                console.log(err.message);
+            }
+
+            throw Error('Failed to fetch single book');
+        }
+    };
 
     const createBook = async (payload: BookPayload) => {
         if (!user) {

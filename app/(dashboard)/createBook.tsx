@@ -9,13 +9,13 @@ import ThemedTextInput from '../../components/ThemedTextInput';
 import ThemedButton from '../../components/ThemedButton';
 
 const CreateBook = () => {
-    const router = useRouter();
-    const { createBook } = useBooksContext();
-
     const [title, setTitle] = useState('');
     const [author, setAuthor] = useState('');
     const [description, setDescription] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+
+    const router = useRouter();
+    const { createBook } = useBooksContext();
 
     const handleSubmit = async () => {
         if (!title.trim() || !author.trim() || !description.trim()) {
